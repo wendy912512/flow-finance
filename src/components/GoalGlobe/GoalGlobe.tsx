@@ -25,6 +25,11 @@ export interface GoalGlobeProps {
    */
   tileUrl?: ((x: number, y: number, level: number) => string) | null;
   tileAttribution?: string;
+  /**
+   * Camera framing for the home view. latShift moves the camera south (negative) so the
+   * route sits higher on screen, e.g. when a panel covers the lower part of the globe.
+   */
+  view?: { latShift?: number; lngShift?: number; altitude?: number };
   /** Accessible description of the visual. */
   ariaLabel: string;
   className?: string;
@@ -69,6 +74,7 @@ export function GoalGlobe({
   animateIn = true,
   tileUrl = cartoDark,
   tileAttribution = '© OpenStreetMap contributors © CARTO',
+  view,
   ariaLabel,
   className,
 }: GoalGlobeProps) {
@@ -235,7 +241,11 @@ export function GoalGlobe({
       resizeObserver.observe(host);
 
       const [midLng, midLat] = interpolate(0.42);
-      const home = { lat: midLat - 12, lng: midLng + 4, altitude: host.clientWidth < 560 ? 1.9 : 2.7 };
+      const home = {
+        lat: midLat + (view?.latShift ?? -12),
+        lng: midLng + (view?.lngShift ?? 4),
+        altitude: view?.altitude ?? (host.clientWidth < 560 ? 1.9 : 2.7),
+      };
       homeRef.current = home;
       if (animateIn && !reduce) {
         globe.pointOfView({ lat: home.lat - 40, lng: home.lng + 120, altitude: 4 }, 0);
@@ -258,6 +268,7 @@ export function GoalGlobe({
       globeRef.current = null;
       host.replaceChildren();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- view is read once for the initial framing
   }, [from, to, progress, progressLabel, animateIn, tileUrl]);
 
   const zoom = (factor: number) => {

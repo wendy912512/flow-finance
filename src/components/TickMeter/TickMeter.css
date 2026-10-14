@@ -1,0 +1,34 @@
+.fl-ticks {
+  --tick: var(--savings);
+  position: relative;
+  height: 18px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 7px);
+}
+.fl-ticks--primary { --tick: var(--primary); }
+.fl-ticks--warning { --tick: var(--warning); }
+.fl-ticks__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: repeating-linear-gradient(90deg, var(--tick) 0 2px, transparent 2px 7px);
+}
+.fl-ticks__fill::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  bottom: -4px;
+  width: 3px;
+  border-radius: 1px;
+  background: var(--tick);
+  box-shadow: 0 0 8px var(--tick);
+}
+.fl-ticks__mark {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ink-muted);
+  opacity: 0.45;
+}
+.fl-ticks__mark.is-done { background: var(--tick); opacity: 1; }

@@ -6,7 +6,7 @@ const meta = {
   component: Overview,
   parameters: {
     layout: 'fullscreen',
-    docs: { description: { component: '桌機：微透明玻璃卡片＋光暈背景；手機（寬度 < 768px）：第一版的實心卡片風格。示範資料，非真實財務資料。' } },
+    docs: { description: { component: '桌機（≥ 1100px）：3D 地球鋪滿畫面，左側米白面板分成子卡片，右下為半透明分頁資訊面板。平板與手機：第一版的實心卡片堆疊。示範資料，非真實財務資料。' } },
   },
   decorators: [(Story) => <div style={{ margin: 'calc(var(--space-6) * -1)' }}><Story /></div>],
 } satisfies Meta<typeof Overview>;

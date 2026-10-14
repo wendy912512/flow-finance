@@ -16,3 +16,5 @@ export { NetWorthCard, type NetWorthCardProps } from './components/NetWorthCard/
 export { SpendingChart, type SpendingChartProps } from './components/SpendingChart/SpendingChart';
 export * from './lib/money';
 export * from './lib/goals';
+export { ProgressGauge, type ProgressGaugeProps } from './components/ProgressGauge/ProgressGauge';
+export { TickMeter, type TickMeterProps } from './components/TickMeter/TickMeter';
