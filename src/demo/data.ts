@@ -50,3 +50,30 @@ export const categorySpend = [
 ];
 
 export const income = { salary: 32000, other: 500 };
+
+export type DemoTransaction = {
+  id: string;
+  /** Day of this month. */
+  day: number;
+  kind: 'expense' | 'income' | 'transfer' | 'investment';
+  title: string;
+  category: string;
+  account: string;
+  amount: number;
+  autoCategorized?: boolean;
+  glyph?: string;
+};
+
+/** A sample of this month's ledger, newest first. Not the full month (the chart uses dailyVariableSpend). */
+export const recentTransactions: DemoTransaction[] = [
+  { id: 't1', day: 14, kind: 'expense', title: '路易莎咖啡', category: '餐飲', account: '中信', amount: 135, autoCategorized: true },
+  { id: 't2', day: 14, kind: 'expense', title: '全家便利商店', category: '餐飲', account: '中信', amount: 89, autoCategorized: true },
+  { id: 't3', day: 14, kind: 'expense', title: '午餐便當', category: '餐飲', account: '中信', amount: 110 },
+  { id: 't4', day: 13, kind: 'expense', title: '台北捷運', category: '交通', account: '中信', amount: 45, autoCategorized: true },
+  { id: 't5', day: 13, kind: 'expense', title: '電影票', category: '娛樂', account: '中信', amount: 320 },
+  { id: 't6', day: 12, kind: 'expense', title: '蝦皮購物', category: '購物', account: '中信', amount: 680 },
+  { id: 't7', day: 11, kind: 'expense', title: '麥當勞', category: '餐飲', account: '中信', amount: 158, autoCategorized: true },
+  { id: 't8', day: 10, kind: 'transfer', title: '轉帳到元大', category: '轉帳', account: '中信 → 元大', amount: 3000, glyph: '轉' },
+  { id: 't9', day: 10, kind: 'income', title: '十月薪資', category: '收入', account: '中信', amount: 32000, glyph: '薪' },
+  { id: 't10', day: 5, kind: 'expense', title: '房租', category: '居住', account: '中信', amount: 3000, glyph: '住' },
+];

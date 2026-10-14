@@ -1,0 +1,279 @@
+/*
+ * The shared page frame.
+ *
+ * Desktop (≥ 1200px): off-white panel on the left (sticky, scrolls inside itself as one piece),
+ * the page's content on the dark stage to the right, with the nav + month bar stuck to the top.
+ * Below 1200px: one column of solid cards (v1 style) with a bottom tab bar.
+ */
+.fl-app {
+  --panel-w: 380px;
+  --gap: var(--space-4);
+  --top-h: 48px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--panel-w) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+  padding: var(--gap);
+  background: var(--stage);
+  color: var(--ink);
+}
+
+/* ── Left panel ────────────────────────────────────── */
+.fl-app__panel {
+  position: sticky;
+  z-index: 3;
+  top: var(--gap);
+  max-height: calc(100vh - var(--gap) * 2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  background: var(--surface-2);
+  border-radius: var(--radius-lg);
+}
+.fl-app__brand { display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-1) var(--space-2); }
+.fl-app__logo { display: flex; align-items: center; gap: var(--space-3); font-size: 17px; font-weight: 600; }
+.fl-app__add { border-radius: var(--radius-pill); }
+
+.fl-app__title { padding: var(--space-3) var(--space-1) var(--space-4); }
+.fl-app__eyebrow, .fl-app__hero-label { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.fl-app__hero { display: flex; align-items: baseline; gap: var(--space-1); margin: var(--space-1) 0; }
+.fl-app__cur { font-size: 22px; color: var(--ink-muted); }
+
+.fl-sub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.fl-sub {
+  padding: var(--space-4);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.fl-sub--wide { grid-column: 1 / -1; }
+.fl-sub__head { font-size: 13px; line-height: 20px; font-weight: 600; color: var(--ink); }
+.fl-sub__value { font-size: 22px; line-height: 30px; letter-spacing: -0.01em; }
+.fl-sub__meta { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.fl-sub__row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); }
+.fl-sub__list {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2) 0 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--ink);
+}
+.fl-sub__list li { display: flex; justify-content: space-between; gap: var(--space-3); }
+.fl-sub__date { display: inline-block; min-width: 44px; color: var(--ink-muted); }
+.fl-sub__more { margin-top: var(--space-1); }
+.fl-sub .fl-progress { margin-top: var(--space-1); }
+
+.fl-sub--how { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.fl-sub--how summary { cursor: pointer; color: var(--primary); font-weight: 600; }
+.fl-sub--how dl { margin: var(--space-2) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fl-sub--how dd { margin: 0; color: var(--ink); font-weight: 600; }
+.fl-sub--accounts { gap: var(--space-3); }
+
+.fl-app__panel .fl-networth--bare.fl-card {
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 0;
+  border-radius: var(--radius-md);
+}
+.fl-link { font-size: 12px; line-height: 18px; color: var(--primary); text-decoration: none; }
+.fl-link:hover { text-decoration: underline; }
+.fl-strong { color: var(--ink); font-weight: 600; }
+
+/* ── Main column ───────────────────────────────────── */
+.fl-app__main { min-width: 0; display: flex; flex-direction: column; gap: var(--gap); }
+.fl-app__top {
+  position: sticky;
+  top: 0;
+  /* Solid backing (covering the gap above too) so content scrolls cleanly underneath. */
+  margin-top: calc(var(--gap) * -1);
+  padding: var(--gap) 0 var(--space-2);
+  background: linear-gradient(var(--stage) 80%, transparent);
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap);
+  pointer-events: none;
+}
+.fl-app__content { min-width: 0; }
+
+/* Palette for anything on the dark stage (desktop only; phones use the normal theme). */
+@media (min-width: 1200px) {
+  .fl-app__nav,
+  .fl-app__content {
+    --ink: var(--stage-ink);
+    --ink-muted: var(--stage-muted);
+    --line: var(--stage-line);
+    --surface: var(--stage-2);
+    --surface-2: rgba(255, 255, 255, 0.06);
+    --primary: #7c9bff;
+    --primary-soft: rgba(124, 155, 255, 0.16);
+    --savings: var(--stage-accent);
+    --savings-soft: rgba(69, 201, 161, 0.16);
+    --warning: #e2a847;
+    --warning-soft: rgba(226, 168, 71, 0.16);
+    --danger: #f2857a;
+    --danger-soft: rgba(242, 133, 122, 0.16);
+    --chart-1: #3987e5;
+    --chart-2: #d95926;
+    --chart-3: #199e70;
+    --chart-4: #c98500;
+    --chart-5: #d55181;
+    --chart-other: #5d6879;
+    color: var(--stage-ink);
+  }
+}
+@media (min-width: 1200px) {
+  .fl-app__month {
+    --ink: var(--stage-ink);
+    --surface-2: rgba(255, 255, 255, 0.08);
+    color: var(--stage-ink);
+  }
+}
+
+.fl-app__nav,
+.fl-app__month,
+.fl-glass {
+  background: var(--stage-glass);
+  border: 1px solid var(--stage-line);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+.fl-app__nav,
+.fl-app__month {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: var(--top-h);
+  padding: var(--space-1);
+  border-radius: var(--radius-pill);
+}
+.fl-app__nav a {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  color: var(--stage-muted);
+  text-decoration: none;
+}
+.fl-app__nav a:hover { color: var(--stage-ink); }
+.fl-app__nav a[aria-current='page'] { background: var(--stage-ink); color: var(--stage); font-weight: 600; }
+.fl-app__nav a:focus-visible { outline: 2px solid var(--stage-accent); outline-offset: 2px; }
+.fl-app__month { font-weight: 600; }
+.fl-app__month button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.fl-app__month button:hover { background: var(--surface-2); }
+
+/* A translucent card on the stage. Pages use it for their blocks. */
+.fl-glass {
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.fl-glass__eyebrow { font-size: 12px; line-height: 18px; color: var(--ink-muted); margin-bottom: calc(var(--space-3) * -1); }
+.fl-glass__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.fl-glass__title { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; }
+.fl-glass__meta { font-size: 12px; color: var(--ink-muted); }
+
+.fl-app__tabbar { display: none; }
+
+@media (max-width: 1399px) {
+  .fl-app { --panel-w: 340px; }
+  .fl-app__nav a { padding: var(--space-2) var(--space-3); }
+}
+
+/* ── Tablet & phone ────────────────────────────────── */
+@media (max-width: 1199px) {
+  .fl-app {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-4) 112px;
+    background: var(--bg);
+  }
+  .fl-app__panel,
+  .fl-app__main { display: contents; }
+  .fl-app__nav, .fl-app__add { display: none; }
+
+  .fl-app__brand { order: 0; padding: 0; }
+  .fl-app__top { order: 1; position: static; margin: 0; padding: 0; background: none; }
+  .fl-app__title { order: 2; padding: var(--space-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .fl-sub-grid { order: 3; }
+  .fl-app__content { order: 4; }
+  .fl-sub--how { order: 5; }
+  .fl-sub--accounts { order: 6; }
+  .fl-app__panel .fl-networth--bare.fl-card { order: 7; }
+
+  .fl-sub,
+  .fl-app__panel .fl-networth--bare.fl-card { border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .fl-sub--accounts { background: none; border: 0; padding: var(--space-2) 0; }
+
+  .fl-app__month {
+    background: var(--surface);
+    border-color: var(--line);
+    color: var(--ink);
+    height: 44px;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .fl-app__content { display: flex; flex-direction: column; gap: var(--space-3); }
+  .fl-glass {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    padding: var(--space-4);
+  }
+
+  .fl-app__tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    height: 84px;
+    padding: var(--space-2) var(--space-3) var(--space-5);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    text-align: center;
+  }
+  .fl-app__tabbar a { color: var(--ink-muted); text-decoration: none; min-height: var(--touch-min); display: flex; align-items: center; justify-content: center; }
+  .fl-app__tabbar a[aria-current='page'] { color: var(--primary); font-weight: 600; }
+  .fl-app__tabbar .fl-app__fab {
+    justify-self: center;
+    width: 60px;
+    height: 60px;
+    margin-top: -28px;
+    border-radius: var(--radius-pill);
+    background: var(--primary);
+    color: var(--on-primary);
+    box-shadow: var(--shadow-fab);
+  }
+}
