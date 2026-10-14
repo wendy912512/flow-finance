@@ -1,0 +1,43 @@
+.fl-networth {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.fl-networth__label {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+.fl-networth__rows {
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.fl-networth__rows div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: 13px;
+  line-height: 20px;
+}
+.fl-networth__rows dt { color: var(--ink-muted); }
+.fl-networth__rows dd { margin: 0; font-weight: 600; }
+.fl-networth__note { font-size: 11px; }
+.fl-networth__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+.fl-networth__hint {
+  margin: var(--space-2) 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}

@@ -3,7 +3,23 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   color: var(--ink);
+  min-width: 0;
 }
 .fl-card--sm { padding: var(--space-4); }
 .fl-card--md { padding: var(--space-5); }
 .fl-card--lg { padding: var(--space-6); }
+
+/* Glass: desktop only. On phones it falls back to the solid card (v1 style). */
+@media (min-width: 768px) {
+  .fl-card--glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+    border-color: var(--glass-line);
+    border-radius: var(--radius-glass);
+    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-glass);
+  }
+  .fl-card--glass-strong {
+    background: var(--glass-strong);
+  }
+}
