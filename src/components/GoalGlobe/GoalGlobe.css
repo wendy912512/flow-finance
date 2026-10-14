@@ -3,26 +3,72 @@
   width: 100%;
   height: 100%;
   min-height: 280px;
-  cursor: grab;
-  touch-action: pan-y;
+  color: var(--stage-ink);
 }
-.fl-globe:active { cursor: grabbing; }
 .fl-globe__canvas {
   position: absolute;
   inset: 0;
+  cursor: grab;
+  touch-action: none;
 }
+.fl-globe__canvas:active { cursor: grabbing; }
+
 .fl-globe__status,
 .fl-globe__hint {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--ink-muted);
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--stage-muted);
   pointer-events: none;
+  white-space: nowrap;
 }
-.fl-globe__status { top: 50%; }
-.fl-globe__hint { bottom: var(--space-2); opacity: 0.8; }
+.fl-globe__status { top: 50%; font-size: 12px; }
+.fl-globe__hint { bottom: var(--space-2); }
+
+.fl-globe__controls {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.fl-globe__controls button,
+.fl-globe__jumps button {
+  border: 1px solid var(--stage-line);
+  background: var(--stage-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: var(--stage-ink);
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+.fl-globe__controls button {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-md);
+  font-size: 18px;
+}
+.fl-globe__jumps {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+}
+.fl-globe__jumps button {
+  height: var(--control-sm);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+}
+.fl-globe__controls button:hover,
+.fl-globe__jumps button:hover { background: var(--stage-2); }
+.fl-globe__controls button:focus-visible,
+.fl-globe__jumps button:focus-visible { outline: 2px solid var(--stage-accent); outline-offset: 2px; }
 
 /* Labels and the plane are DOM overlays positioned by the globe. */
 .fl-globe-label {
@@ -32,17 +78,17 @@
   transform: translate(10px, -50%);
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
-  background: var(--glass-strong);
-  border: 1px solid var(--glass-line);
+  background: var(--stage-glass);
+  border: 1px solid var(--stage-line);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  color: var(--ink);
+  color: var(--stage-ink);
   font-family: var(--font-sans);
   white-space: nowrap;
   pointer-events: none;
 }
 .fl-globe-label strong { font-size: 13px; line-height: 16px; font-weight: 600; }
-.fl-globe-label span { font-size: 11px; line-height: 14px; color: var(--ink-muted); }
+.fl-globe-label span { font-size: 11px; line-height: 14px; color: var(--stage-muted); }
 
 .fl-globe-plane {
   display: inline-flex;
@@ -50,23 +96,26 @@
   gap: var(--space-1);
   transform: translate(-12px, -50%);
   padding: var(--space-1) var(--space-2) var(--space-1) var(--space-1);
-  border-radius: var(--radius-pill);
-  background: var(--glass-strong);
-  border: 1px solid var(--savings);
-  color: var(--savings);
+  border-radius: var(--radius-sm);
+  background: var(--stage-glass);
+  border: 1px solid var(--stage-accent);
+  color: var(--stage-accent);
   font-family: var(--font-sans);
   font-size: 12px;
   line-height: 16px;
   font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
-  box-shadow: 0 4px 12px var(--savings-soft);
 }
 .fl-globe-plane svg {
   width: 20px;
   height: 20px;
   padding: 2px;
-  border-radius: var(--radius-pill);
-  background: var(--savings);
-  color: var(--surface);
+  border-radius: var(--radius-xs);
+  background: var(--stage-accent);
+  color: var(--stage);
+}
+
+@media (max-width: 767px) {
+  .fl-globe__jumps { display: none; }
 }

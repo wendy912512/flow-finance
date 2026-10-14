@@ -13,7 +13,7 @@
   padding: 0;
   border: 0;
   background: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   transform-origin: top center;
   cursor: pointer;
   filter: saturate(0.85) brightness(0.96);
@@ -22,7 +22,7 @@
 .fl-wallet__back:hover { filter: none; }
 .fl-wallet__front {
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   box-shadow: 0 -6px 16px rgba(14, 22, 38, 0.12);
   animation: fl-wallet-in 240ms ease;
 }
@@ -39,7 +39,7 @@
   display: flex;
   gap: var(--space-1);
   padding: var(--space-1);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   background: var(--surface-2);
   box-shadow: inset 0 0 0 1px var(--line);
 }
@@ -47,7 +47,7 @@
   height: var(--control-sm);
   padding: 0 var(--space-3);
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--ink-muted);
   font-size: 12px;

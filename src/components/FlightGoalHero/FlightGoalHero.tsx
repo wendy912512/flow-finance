@@ -31,7 +31,7 @@ export function FlightGoalHero({ name, purpose, priority, route, allocatedThisMo
   }[p.status];
 
   return (
-    <Card as="section" surface="glass" padding="lg" className="fl-flight" aria-label={`存錢目標：${name}`}>
+    <Card as="section" surface="stage" padding="lg" className="fl-flight" aria-label={`存錢目標：${name}`}>
       <header className="fl-flight__head">
         <div className="fl-flight__eyebrow">
           {priority !== undefined && <span className="fl-flight__chip">優先 {priority}</span>}
@@ -52,7 +52,7 @@ export function FlightGoalHero({ name, purpose, priority, route, allocatedThisMo
         />
       </div>
 
-      <Card as="aside" surface="glass-strong" padding="md" className="fl-flight__panel" aria-label="航班資訊">
+      <Card as="aside" surface="stage-glass" padding="md" className="fl-flight__panel" aria-label="航班資訊">
         <div className="fl-flight__row">
           <span className="fl-flight__label">航班資訊</span>
           {status}

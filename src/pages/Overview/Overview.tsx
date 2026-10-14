@@ -73,7 +73,7 @@ export function Overview({ animateIn = true }: OverviewProps) {
 
       <div className="fl-page__body">
         <aside className="fl-page__side" aria-label="每日資訊">
-          <Card surface="glass" className="fl-today">
+          <Card className="fl-today">
             <div className="fl-today__label">
               今天建議可花 · 本月剩 <span className="num">{daysLeft}</span> 天（含今天）
             </div>
@@ -118,8 +118,13 @@ export function Overview({ animateIn = true }: OverviewProps) {
             </details>
           </Card>
 
-          <Card surface="glass" className="fl-side-card">
-            <h2 className="fl-card-title">帳戶</h2>
+          <section className="fl-side-card" aria-label="帳戶">
+            <div className="fl-card-head fl-wallet-head">
+              <h2 className="fl-card-title">帳戶</h2>
+              <a href="#" className="fl-link">
+                管理 →
+              </a>
+            </div>
             <AccountWallet
               accounts={[
                 { id: 'ctbc', ...demo.accounts.ctbc, available: demo.accounts.ctbc.balance - demo.accounts.ctbc.reserved },
@@ -127,37 +132,37 @@ export function Overview({ animateIn = true }: OverviewProps) {
                 { id: 'cathay', ...demo.accounts.cathay, status: 'planned' },
               ]}
             />
-          </Card>
+          </section>
 
-          <NetWorthCard surface="glass" deposits={demo.depositTotal} investmentValue={demo.investmentMarketValue} creditCardUnpaid={demo.creditCardUnpaid} />
+          <NetWorthCard deposits={demo.depositTotal} investmentValue={demo.investmentMarketValue} creditCardUnpaid={demo.creditCardUnpaid} />
         </aside>
 
         <main className="fl-page__main">
           <FlightGoalHero {...demo.iceland} today={demo.thisMonth} animateIn={animateIn} />
 
           <section className="fl-tiles" aria-label="本月數字">
-            <Card surface="glass" padding="md" className="fl-tile">
+            <Card padding="md" className="fl-tile">
               <span className="fl-tile__label">本月收入</span>
               <span className="text-display-3">{formatAmount(demo.income.salary + demo.income.other)}</span>
               <span className="fl-tile__meta">
                 薪資 <span className="num">{formatAmount(demo.income.salary)}</span> · 其他 <span className="num">{formatAmount(demo.income.other)}</span>
               </span>
             </Card>
-            <Card surface="glass" padding="md" className="fl-tile">
+            <Card padding="md" className="fl-tile">
               <span className="fl-tile__label">本月支出</span>
               <span className="text-display-3">{formatAmount(variableSpent + fixedPaid)}</span>
               <span className="fl-tile__meta">
                 日常 <span className="num">{formatAmount(variableSpent)}</span> · 固定已付 <span className="num">{formatAmount(fixedPaid)}</span>
               </span>
             </Card>
-            <Card surface="glass" padding="md" className="fl-tile">
+            <Card padding="md" className="fl-tile">
               <span className="fl-tile__label">日常預算剩餘</span>
               <span className="text-display-3">{formatAmount(budgetLeft)}</span>
               <span className="fl-tile__meta">
                 預算 <span className="num">{formatAmount(demo.variableBudget)}</span> − 已花 <span className="num">{formatAmount(variableSpent)}</span>
               </span>
             </Card>
-            <Card surface="glass" padding="md" className="fl-tile">
+            <Card padding="md" className="fl-tile">
               <span className="fl-tile__label">本月待支付</span>
               <span className="text-display-3">{formatAmount(pendingTotal)}</span>
               <span className="fl-tile__meta">
@@ -167,14 +172,14 @@ export function Overview({ animateIn = true }: OverviewProps) {
           </section>
 
           <section className="fl-two" aria-label="支出分析">
-            <Card surface="glass">
+            <Card>
               <div className="fl-card-head">
                 <h2 className="fl-card-title">本月日常支出累計</h2>
                 <span className="fl-tile__meta">點或移到線上看每天</span>
               </div>
               <SpendingChart daily={demo.dailyVariableSpend} daysInMonth={demo.daysInMonth} month={demo.today.month} budget={demo.variableBudget} />
             </Card>
-            <Card surface="glass">
+            <Card>
               <div className="fl-card-head">
                 <h2 className="fl-card-title">本月支出類別</h2>
                 <span className="num fl-tile__meta">共 {formatAmount(variableSpent + fixedPaid)}</span>
@@ -184,7 +189,7 @@ export function Overview({ animateIn = true }: OverviewProps) {
           </section>
 
           <section className="fl-two" aria-label="待支付與交易">
-            <Card surface="glass">
+            <Card>
               <div className="fl-card-head">
                 <h2 className="fl-card-title">最近交易</h2>
                 <a href="#" className="fl-link">
@@ -196,7 +201,7 @@ export function Overview({ animateIn = true }: OverviewProps) {
               <TransactionRow kind="expense" title="蝦皮購物" date="10/12" detail="購物" amount={680} />
               <TransactionRow kind="income" title="十月薪資" date="10/10" detail="收入 · 中信" amount={32000} glyph="薪" />
             </Card>
-            <Card surface="glass">
+            <Card>
               <div className="fl-card-head">
                 <h2 className="fl-card-title">其他目標</h2>
                 <a href="#" className="fl-link">

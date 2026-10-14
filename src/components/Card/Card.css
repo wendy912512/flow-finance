@@ -1,25 +1,35 @@
 .fl-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  color: var(--ink);
   min-width: 0;
 }
 .fl-card--sm { padding: var(--space-4); }
 .fl-card--md { padding: var(--space-5); }
 .fl-card--lg { padding: var(--space-6); }
 
-/* Glass: desktop only. On phones it falls back to the solid card (v1 style). */
-@media (min-width: 768px) {
-  .fl-card--glass {
-    background: var(--glass);
-    -webkit-backdrop-filter: blur(24px) saturate(150%);
-    backdrop-filter: blur(24px) saturate(150%);
-    border-color: var(--glass-line);
-    border-radius: var(--radius-glass);
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-glass);
-  }
-  .fl-card--glass-strong {
-    background: var(--glass-strong);
-  }
+.fl-card--solid {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+/* The black stage: overrides the text tokens so children read correctly on black. */
+.fl-card--stage {
+  --ink: var(--stage-ink);
+  --ink-muted: var(--stage-muted);
+  --line: var(--stage-line);
+  --savings: var(--stage-accent);
+  --savings-soft: rgba(69, 201, 161, 0.16);
+  --surface: var(--stage-2);
+  --surface-2: var(--stage-2);
+  background: var(--stage);
+  color: var(--stage-ink);
+  border: 1px solid var(--stage);
+}
+
+.fl-card--stage-glass {
+  background: var(--stage-glass);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--stage-line);
+  color: var(--stage-ink);
 }

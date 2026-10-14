@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   color: var(--card-ink);
   font-family: var(--font-sans);
 }

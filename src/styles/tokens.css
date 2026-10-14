@@ -2,12 +2,12 @@
 
 :root,
 [data-theme="light"] {
-  --bg: #f3f5f8;
-  --surface: #ffffff;
-  --surface-2: #f7f9fb;
-  --line: #e1e6ed;
-  --ink: #0e1626;
-  --ink-muted: #566173;
+  --bg: #e6e5e1;
+  --surface: #f3f2ef;
+  --surface-2: #ebeae6;
+  --line: #dcdad5;
+  --ink: #121314;
+  --ink-muted: #5e5d58;
   --primary: #2f5bea;
   --primary-soft: #e8eefd;
   --on-primary: #ffffff;
@@ -28,28 +28,27 @@
   --card-graphite-2: #33404f;
   --card-ink: #f2f5fb;
   --card-chip: #d8c07a;
-  --glass: rgba(255,255,255,0.58);
-  --glass-strong: rgba(255,255,255,0.80);
-  --glass-line: rgba(255,255,255,0.75);
-  --glass-highlight: rgba(255,255,255,0.90);
-  --glow-1: rgba(47,91,234,0.16);
-  --glow-2: rgba(11,127,96,0.12);
-  --glow-3: rgba(111,142,243,0.14);
   --track: rgba(14,22,38,0.10);
   --chart-other: #9aa4b4;
+  --stage: #0d0e10;
+  --stage-2: #17181b;
+  --stage-ink: #f2f1ee;
+  --stage-muted: #8e8c87;
+  --stage-line: rgba(255,255,255,0.10);
+  --stage-glass: rgba(30,31,35,0.62);
+  --stage-accent: #45c9a1;
   --shadow-none: none;
   --shadow-float: 0 8px 24px rgba(14,22,38,0.08);
   --shadow-fab: 0 8px 20px rgba(47,91,234,0.35);
-  --shadow-glass: 0 12px 32px rgba(14,22,38,0.07);
 }
 
 [data-theme="dark"] {
-  --bg: #0b1119;
-  --surface: #121a25;
-  --surface-2: #172131;
-  --line: #243042;
-  --ink: #e8edf4;
-  --ink-muted: #9aa5b5;
+  --bg: #0b0c0e;
+  --surface: #16171a;
+  --surface-2: #1d1f23;
+  --line: #2a2c31;
+  --ink: #ecebe8;
+  --ink-muted: #9a9893;
   --primary: #7c9bff;
   --primary-soft: #1b2a4d;
   --on-primary: #0b1119;
@@ -64,18 +63,10 @@
   --chart-3: #199e70;
   --chart-4: #c98500;
   --chart-5: #d55181;
-  --glass: rgba(22,30,44,0.55);
-  --glass-strong: rgba(30,40,58,0.82);
-  --glass-line: rgba(255,255,255,0.08);
-  --glass-highlight: rgba(255,255,255,0.06);
-  --glow-1: rgba(80,120,255,0.22);
-  --glow-2: rgba(40,190,150,0.14);
-  --glow-3: rgba(120,150,255,0.12);
   --track: rgba(255,255,255,0.10);
   --chart-other: #5d6879;
   --shadow-float: 0 8px 24px rgba(0,0,0,0.4);
   --shadow-fab: 0 8px 20px rgba(0,0,0,0.5);
-  --shadow-glass: 0 12px 32px rgba(0,0,0,0.35);
 }
 
 :root {
@@ -89,12 +80,11 @@
   --space-8: 32px;
   --space-10: 40px;
   --space-12: 48px;
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-glass: 20px;
-  --radius-xl: 24px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-card: 12px;
   --radius-pill: 999px;
   --control-sm: 32px;
   --control-md: 40px;
