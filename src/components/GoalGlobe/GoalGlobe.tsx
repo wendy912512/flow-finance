@@ -235,7 +235,7 @@ export function GoalGlobe({
       resizeObserver.observe(host);
 
       const [midLng, midLat] = interpolate(0.42);
-      const home = { lat: midLat - 14, lng: midLng + 6, altitude: 2.0 };
+      const home = { lat: midLat - 12, lng: midLng + 4, altitude: host.clientWidth < 560 ? 1.9 : 2.7 };
       homeRef.current = home;
       if (animateIn && !reduce) {
         globe.pointOfView({ lat: home.lat - 40, lng: home.lng + 120, altitude: 4 }, 0);

@@ -41,3 +41,19 @@
   line-height: 18px;
   color: var(--ink-muted);
 }
+
+/* Inside a side panel: no frame of its own, the panel provides it. */
+.fl-networth--bare.fl-card {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 767px) {
+  .fl-networth--bare.fl-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+}

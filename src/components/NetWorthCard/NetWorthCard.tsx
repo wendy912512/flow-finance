@@ -12,16 +12,18 @@ export interface NetWorthCardProps {
   /** Date the investment value was last entered, e.g. "10/01". */
   investmentAsOf?: string;
   onUpdateInvestment?: () => void;
+  /** Render without the card frame, e.g. inside a side panel. */
+  bare?: boolean;
 }
 
 /**
  * 總資產 with its formula spelled out, so the headline number is never a mystery:
  * deposits + investment market value − unpaid credit-card balance.
  */
-export function NetWorthCard({ deposits, investmentValue, creditCardUnpaid, investmentAsOf, onUpdateInvestment }: NetWorthCardProps) {
+export function NetWorthCard({ deposits, investmentValue, creditCardUnpaid, investmentAsOf, onUpdateInvestment, bare = false }: NetWorthCardProps) {
   const total = deposits + (investmentValue ?? 0) - creditCardUnpaid;
   return (
-    <Card className="fl-networth" aria-label="總資產">
+    <Card className={`fl-networth${bare ? ' fl-networth--bare' : ''}`} aria-label="總資產">
       <div className="fl-networth__label">總資產</div>
       <div className="text-display-2">{formatAmount(total, { currency: true })}</div>
       <dl className="fl-networth__rows">

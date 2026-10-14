@@ -1,34 +1,67 @@
+/*
+ * Desktop/tablet: an immersive stage. The globe fills the whole card and everything else
+ * floats on top of it as translucent panels. Phones fall back to a stacked layout below.
+ */
 .fl-flight {
   position: relative;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 296px;
-  grid-template-rows: auto minmax(320px, 1fr) auto;
-  grid-template-areas:
-    'head panel'
-    'stage panel'
-    'track track';
-  gap: var(--space-4) var(--space-6);
-  min-height: 560px;
+  min-height: 600px;
+  height: 100%;
 }
+.fl-flight.fl-card--lg { padding: 0; }
 
-.fl-flight__head { grid-area: head; position: relative; z-index: 1; }
 .fl-flight__stage {
-  grid-area: stage;
-  position: relative;
-  /* let the globe bleed under the header for depth */
-  margin: calc(var(--space-4) * -1) calc(var(--space-6) * -1) 0;
+  position: absolute;
+  inset: 0;
+}
+/* Centre the globe in the space left of the info panel. */
+.fl-flight .fl-globe__canvas { right: 320px; }
+
+.fl-flight__head {
+  position: absolute;
+  top: var(--space-6);
+  left: var(--space-6);
+  z-index: 2;
+  max-width: 420px;
+  pointer-events: none;
 }
 .fl-flight__panel {
-  grid-area: panel;
-  align-self: start;
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 2;
+  width: 300px;
+  max-height: calc(100% - var(--space-4) * 2);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  position: relative;
-  z-index: 1;
+  overflow-y: auto;
 }
-.fl-flight__track { grid-area: track; display: flex; flex-direction: column; gap: var(--space-2); }
+.fl-flight__track {
+  position: absolute;
+  left: var(--space-4);
+  right: calc(300px + var(--space-4) * 2 + 44px + var(--space-4));
+  bottom: var(--space-4);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Globe controls sit at the bottom-right of the globe area, the city jumps above the track. */
+.fl-flight .fl-globe__controls {
+  top: auto;
+  bottom: var(--space-4);
+  right: calc(300px + var(--space-4) * 2);
+  transform: none;
+}
+.fl-flight .fl-globe__jumps { left: var(--space-4); bottom: 108px; }
+.fl-flight .fl-globe__hint {
+  top: 132px;
+  bottom: auto;
+  left: var(--space-6);
+  transform: none;
+}
 
 .fl-flight__eyebrow {
   display: flex;
@@ -53,7 +86,6 @@
 }
 .fl-flight__purpose {
   margin: 0;
-  max-width: 420px;
   font-size: 13px;
   line-height: 20px;
   color: var(--ink-muted);
@@ -116,17 +148,34 @@
 }
 .fl-flight__milestone.is-done { background: var(--savings); opacity: 1; }
 
-/* Phones: v1 style — solid card, stacked. */
+/* Narrower stages (tablet): slimmer panel. */
+@media (max-width: 1279px) {
+  .fl-flight__panel { width: 272px; }
+  .fl-flight .fl-globe__canvas { right: 288px; }
+  .fl-flight__track { right: calc(272px + var(--space-4) * 2 + 44px + var(--space-4)); }
+  .fl-flight .fl-globe__controls { right: calc(272px + var(--space-4) * 2); }
+}
+
+/* Phones: v1 style — stacked, no overlays. */
 @media (max-width: 767px) {
   .fl-flight {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto 280px auto auto;
-    grid-template-areas: 'head' 'stage' 'track' 'panel';
-    min-height: 0;
-    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
     gap: var(--space-3);
+    min-height: 0;
+    height: auto;
   }
-  .fl-flight__stage { margin: 0 calc(var(--space-4) * -1); }
+  .fl-flight.fl-card--lg { padding: var(--space-4); }
+  .fl-flight__head,
+  .fl-flight__stage,
+  .fl-flight__panel,
+  .fl-flight__track { position: relative; inset: auto; top: auto; left: auto; right: auto; bottom: auto; width: auto; max-width: none; }
+  .fl-flight__stage { height: 300px; margin: 0 calc(var(--space-4) * -1); }
+  .fl-flight .fl-globe__canvas { right: 0; }
+  .fl-flight .fl-globe__controls { right: var(--space-3); bottom: var(--space-3); }
+  .fl-flight .fl-globe__hint { top: auto; bottom: var(--space-2); left: 50%; transform: translateX(-50%); }
   .fl-flight__name { font-size: 20px; line-height: 28px; margin-top: var(--space-2); }
-  .fl-flight__panel { padding: 0; border: 0; background: none; }
+  .fl-flight__panel { padding: 0; border: 0; background: none; overflow: visible; }
+  .fl-flight__track { order: 3; padding: 0; border: 0; background: none; }
+  .fl-flight__panel { order: 4; }
 }

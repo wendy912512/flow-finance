@@ -90,7 +90,7 @@ export function FlightGoalHero({ name, purpose, priority, route, allocatedThisMo
         </Button>
       </Card>
 
-      <div className="fl-flight__track">
+      <Card surface="stage-glass" padding="md" className="fl-flight__track">
         <div className="fl-flight__row fl-flight__label">
           <span>
             已存 <span className="num fl-flight__strong">{formatAmount(goal.saved)}</span> / {formatAmount(goal.target)}（{p.percentLabel}）
@@ -111,7 +111,7 @@ export function FlightGoalHero({ name, purpose, priority, route, allocatedThisMo
             <span key={m} className={`fl-flight__milestone${p.milestone >= m ? ' is-done' : ''}`} style={{ left: `${m}%` }} />
           ))}
         </div>
-      </div>
+      </Card>
     </Card>
   );
 }

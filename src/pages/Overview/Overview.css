@@ -1,16 +1,17 @@
 .fl-page {
   min-height: 100vh;
-  padding: var(--space-6) clamp(var(--space-4), 3vw, var(--space-10)) var(--space-12);
+  padding: var(--space-4) clamp(var(--space-4), 2vw, var(--space-6)) var(--space-12);
   color: var(--ink);
 }
+
+/* ── Top bar ─────────────────────────────────────────── */
 .fl-page__top {
-  max-width: 1360px;
-  margin: 0 auto var(--space-5);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 .fl-page__brand { display: flex; align-items: center; gap: var(--space-3); font-size: 17px; font-weight: 600; }
 
@@ -20,16 +21,17 @@
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-1);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   background: var(--surface);
   border: 1px solid var(--line);
 }
 .fl-page__nav a {
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   color: var(--ink-muted);
   text-decoration: none;
 }
+.fl-page__nav a:hover { color: var(--ink); }
 .fl-page__nav a[aria-current='page'] { background: var(--ink); color: var(--surface); font-weight: 600; }
 .fl-page__nav a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .fl-page__actions { display: flex; align-items: center; gap: var(--space-2); }
@@ -38,60 +40,81 @@
   width: 36px;
   height: 36px;
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--ink);
   cursor: pointer;
 }
-.fl-page__add { }
+.fl-page__month button:hover { background: var(--surface-2); }
+.fl-page__add { border-radius: var(--radius-pill); }
 
-.fl-page__body {
-  max-width: 1360px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+/* ── Shell: one side panel + one full-height stage ───── */
+.fl-shell {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
   gap: var(--space-4);
-}
-.fl-page__side {
-  flex: 1 1 320px;
-  max-width: 372px;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-.fl-page__main {
-  flex: 999 1 640px;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+  align-items: start;
 }
 
+.fl-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+.fl-panel__sec {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.fl-panel__sec + .fl-panel__sec { border-top: 1px solid var(--line); }
+
+.fl-shell__stage {
+  position: sticky;
+  top: var(--space-4);
+  height: clamp(620px, calc(100vh - 104px), 940px);
+}
+.fl-shell__stage > .fl-flight { height: 100%; }
+
+/* ── Panel sections ──────────────────────────────────── */
 .fl-card-title { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; }
-.fl-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-3); }
-.fl-side-card { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-2) 0; }
-.fl-wallet-head { margin-bottom: 0; padding: 0 var(--space-1); }
+.fl-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); }
 .fl-link { font-size: 12px; color: var(--primary); text-decoration: none; }
 .fl-strong { color: var(--ink); font-weight: 600; }
 
-.fl-today { display: flex; flex-direction: column; gap: var(--space-2); }
+.fl-today { gap: var(--space-2); }
 .fl-today__label, .fl-today__meta { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
 .fl-today__value { color: var(--ink); }
 .fl-today__cur { font-size: 22px; font-weight: 400; color: var(--ink-muted); margin-right: var(--space-1); letter-spacing: 0; }
 .fl-today__budget { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
 .fl-today__row { display: flex; justify-content: space-between; gap: var(--space-2); font-size: 12px; line-height: 18px; color: var(--ink-muted); }
-.fl-today__how { margin-top: var(--space-2); font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.fl-today__how { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
 .fl-today__how summary { cursor: pointer; color: var(--primary); font-weight: 600; }
 .fl-today__how dl { margin: var(--space-2) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
 .fl-today__how dd { margin: 0; color: var(--ink); font-weight: 600; }
 
-.fl-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4); }
-.fl-tile { display: flex; flex-direction: column; gap: var(--space-1); }
+.fl-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-3);
+}
+.fl-tile { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .fl-tile__label, .fl-tile__meta { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.fl-tile__value { font-size: 22px; line-height: 28px; font-weight: 400; letter-spacing: -0.01em; }
 
-.fl-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-4); }
+.fl-accounts .fl-wallet { margin-top: var(--space-1); }
+
+/* ── Analysis below the fold ─────────────────────────── */
+.fl-analysis {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.fl-analysis .fl-card-head { margin-bottom: var(--space-3); }
+.fl-analysis > .fl-two { display: contents; }
 
 .fl-goals-mini { display: flex; flex-direction: column; gap: var(--space-4); }
 .fl-goals-mini__row { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -101,22 +124,37 @@
 
 .fl-page__tabbar { display: none; }
 
-/* Phones: v1 look — solid cards, one column, bottom tab bar with the add button. */
+/* ── Tablet: stage on top full width, panel below in two columns ── */
+@media (max-width: 1099px) {
+  .fl-shell { grid-template-columns: minmax(0, 1fr); }
+  .fl-shell__stage { position: relative; top: 0; height: 640px; order: -1; }
+  .fl-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fl-panel__sec + .fl-panel__sec { border-top: 0; }
+  .fl-panel > :nth-child(n + 3) { border-top: 1px solid var(--line); }
+}
+
+/* ── Phones: v1 look — separate solid cards, one column, bottom tab bar ── */
 @media (max-width: 767px) {
   .fl-page { padding: var(--space-4) var(--space-4) 112px; }
   .fl-page__nav, .fl-page__add { display: none; }
-  .fl-page__top { margin-bottom: var(--space-4); }
-  /* One column; flatten the two regions so the goal sits right under today's spendable. */
-  .fl-page__body { flex-direction: column; align-items: stretch; gap: var(--space-3); }
-  .fl-page__side, .fl-page__main { display: contents; }
+
+  .fl-shell { display: flex; flex-direction: column; gap: var(--space-3); }
+  .fl-panel { display: contents; }
+  .fl-panel__sec {
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+  .fl-panel__sec + .fl-panel__sec { border-top: 1px solid var(--line); }
+  .fl-shell__stage { position: relative; top: 0; height: auto; }
   .fl-today { order: 1; }
-  .fl-flight { order: 2; }
-  .fl-tiles { order: 3; }
-  .fl-side-card { order: 4; }
-  .fl-networth { order: 5; }
-  .fl-two { order: 6; }
-  .fl-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
-  .fl-two { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+  .fl-shell__stage { order: 2; }
+  .fl-month { order: 3; }
+  .fl-accounts { order: 4; background: none; border: 0; padding: var(--space-2) 0; }
+  .fl-networth--bare { order: 5; }
+
+  .fl-analysis { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); margin-top: var(--space-3); }
   .fl-today__value { font-size: 44px; line-height: 52px; }
 
   .fl-page__tabbar {
@@ -142,7 +180,7 @@
     width: 60px;
     height: 60px;
     margin-top: -28px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-pill);
     background: var(--primary);
     color: var(--on-primary);
     box-shadow: var(--shadow-fab);
