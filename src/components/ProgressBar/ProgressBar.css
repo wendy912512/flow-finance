@@ -1,0 +1,33 @@
+.fl-progress {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.fl-progress--md { height: 8px; }
+.fl-progress--lg { height: 12px; }
+
+.fl-progress__bar {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 240ms ease;
+}
+.fl-progress__tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--space-0-5);
+  margin-left: -1px;
+  background: var(--surface);
+}
+
+.fl-progress--budget { background: var(--primary-soft); }
+.fl-progress--budget .fl-progress__bar { background: var(--primary); }
+.fl-progress--savings { background: var(--savings-soft); }
+.fl-progress--savings .fl-progress__bar { background: var(--savings); }
+.fl-progress--danger { background: var(--danger-soft); }
+.fl-progress--danger .fl-progress__bar { background: var(--danger); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fl-progress__bar { transition: none; }
+}

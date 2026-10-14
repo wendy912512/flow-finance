@@ -1,0 +1,9 @@
+.fl-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+}
+.fl-card--sm { padding: var(--space-4); }
+.fl-card--md { padding: var(--space-5); }
+.fl-card--lg { padding: var(--space-6); }

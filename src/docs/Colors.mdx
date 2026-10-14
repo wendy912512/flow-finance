@@ -1,0 +1,27 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import tokens from '../design-system/tokens.json';
+
+<Meta title="基礎/色彩" />
+
+# 色彩
+
+色塊顯示的是目前主題的值；切換工具列的「主題」即可比較淺色與深色。名稱即 CSS 變數，例如 `var(--primary)`。
+
+export const groups = [
+  { title: '表面與文字', names: ['bg', 'surface', 'surface-2', 'line', 'ink', 'ink-muted'] },
+  { title: '主色（可以花的錢、操作）', names: ['primary', 'primary-soft', 'on-primary'] },
+  { title: '存錢（預留、目標、收入）', names: ['savings', 'savings-soft'] },
+  { title: '狀態', names: ['warning', 'warning-soft', 'danger', 'danger-soft'] },
+  { title: '圖表', names: ['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'] },
+  { title: '卡面（兩種主題相同）', names: ['card-navy', 'card-navy-2', 'card-graphite', 'card-graphite-2', 'card-ink', 'card-chip'] },
+];
+
+export const byName = Object.fromEntries(tokens.color.tokens.map((t) => [t.name, t]));
+
+<ColorPalette>
+  {groups.flatMap((g) =>
+    g.names.map((n) => (
+      <ColorItem key={n} title={`--${n}`} subtitle={`${g.title}｜${byName[n].usage}`} colors={{ [n]: `var(--${n})` }} />
+    )),
+  )}
+</ColorPalette>

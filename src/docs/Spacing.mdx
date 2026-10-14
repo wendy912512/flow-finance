@@ -1,0 +1,46 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import tokens from '../design-system/tokens.json';
+
+<Meta title="基礎/間距與圓角" />
+
+# 間距與圓角
+
+全站使用 **4px 基準格線**，內距與間距只用下列 `space-*` 值。
+
+export const Bar = ({ t }) => (
+  <div style={{ display: 'grid', gridTemplateColumns: '120px 56px 1fr', gap: 16, alignItems: 'center', padding: '8px 0', borderBottom: '1px solid var(--line)' }}>
+    <code>--{t.name}</code>
+    <span className="num" style={{ color: 'var(--ink-muted)' }}>{t.value}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <span style={{ width: t.value, height: 16, background: 'var(--primary)', borderRadius: 2, flex: '0 0 auto' }} />
+      <span style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{t.usage}</span>
+    </div>
+  </div>
+);
+
+{tokens.spacing.tokens.map((t) => <Bar key={t.name} t={t} />)}
+
+## 使用規則
+
+| 情境 | 手機 | 桌機 |
+| --- | --- | --- |
+| 頁面左右邊距 | `space-4` 16px | `space-8` 32px |
+| 卡片內距 | `space-4` 16px | `space-5` 20px（重點卡 `space-6`） |
+| 卡片之間 | `space-3` 12px | `space-4` 16px |
+| 區塊之間 | `space-4` 16px | `space-6` 24px |
+| 列表列上下內距 | `space-3` 12px | `space-3` 12px |
+| 標籤到數字 | `space-1` 4px | `space-1` 4px |
+
+可點元素在手機上至少 `touch-min` 44px；主要按鈕 `control-lg` 48px。
+
+## 圓角
+
+<div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+  {tokens.radius.tokens.map((t) => (
+    <div key={t.name} style={{ display: 'grid', gap: 8, justifyItems: 'start', width: 140 }}>
+      <div style={{ width: 96, height: 64, borderRadius: t.value, background: 'var(--primary-soft)', border: '1.5px solid var(--primary)' }} />
+      <code>--{t.name}</code>
+      <span style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{t.value} · {t.usage}</span>
+    </div>
+  ))}
+</div>

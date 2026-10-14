@@ -1,0 +1,19 @@
+.fl-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.fl-stat__label,
+.fl-stat__meta {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+.fl-stat__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}

@@ -1,0 +1,67 @@
+.fl-acct {
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: var(--radius-lg);
+  color: var(--card-ink);
+  font-family: var(--font-sans);
+}
+.fl-acct--md { width: 300px; height: 189px; padding: var(--space-4) var(--space-5); }
+.fl-acct--sm { width: 280px; height: 176px; padding: var(--space-4); }
+
+.fl-acct--navy { background: linear-gradient(135deg, var(--card-navy) 0%, var(--card-navy-2) 100%); }
+.fl-acct--graphite { background: linear-gradient(150deg, var(--card-graphite) 0%, var(--card-graphite-2) 100%); }
+.fl-acct--planned {
+  background: var(--surface-2);
+  border: 1.5px dashed var(--line);
+  color: var(--ink-muted);
+}
+
+.fl-acct__pattern {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fl-acct__top,
+.fl-acct__bottom {
+  position: relative;
+}
+.fl-acct__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.fl-acct__bank { font-size: 14px; line-height: 20px; font-weight: 600; }
+.fl-acct__bank--planned { color: var(--ink); }
+.fl-acct__role { font-size: 12px; line-height: 16px; opacity: 0.82; }
+.fl-acct--planned .fl-acct__role { opacity: 1; }
+.fl-acct__balance {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.fl-acct--sm .fl-acct__balance { font-size: 22px; line-height: 30px; }
+.fl-acct__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: 12px;
+  line-height: 16px;
+  opacity: 0.82;
+}
+.fl-acct__chip {
+  width: 34px;
+  height: 26px;
+  border-radius: 5px;
+  background: var(--card-chip);
+  background-image: linear-gradient(90deg, transparent 32%, rgba(0, 0, 0, 0.18) 32%, rgba(0, 0, 0, 0.18) 35%, transparent 35%, transparent 65%, rgba(0, 0, 0, 0.18) 65%, rgba(0, 0, 0, 0.18) 68%, transparent 68%);
+}
+.fl-acct__chip--graphite { background-color: #c9ced6; }
+.fl-acct__note { margin: 0; font-size: 12px; line-height: 18px; }
+.fl-acct__activate { margin-top: var(--space-1); margin-left: calc(var(--space-2) * -1); }

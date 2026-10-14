@@ -1,0 +1,31 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="介紹" />
+
+# 流向 Flow 元件庫
+
+個人財務儀表板的元件與設計規範。所有元件都讀同一份 token（`src/design-system/tokens.json`），切換右上角工具列的「主題」可以看淺色與深色。
+
+## 原則
+
+1. **數字是主角。** 金額一律使用等寬數字（tabular figures），同一畫面只有一個最大的數字。
+2. **顏色有意義。** 藍色 `primary` 是操作與可以花的錢；綠色 `savings` 只代表存起來的錢；`warning`、`danger` 只出現在狀態上。
+3. **狀態不只靠顏色。** 每個狀態都有文字或圖示。
+4. **用邊框分層，不用陰影。** 陰影只給浮起來的面板與手機「＋記一筆」按鈕。
+5. **卡面是唯一的炫技處。** 帳戶卡面可以用漸層與紋理，其他地方保持平面。
+
+## 金額規則
+
+- 以新台幣**整數元**儲存與計算，`formatAmount` 遇到小數會直接拋錯。
+- 負數用真正的減號「−」（U+2212）。
+- `NT$` 只放在主要金額前；列表內省略。
+- 轉帳與投資買賣不顯示正負號，因為它們不是收入或支出。
+
+## 指令
+
+| 指令 | 用途 |
+| --- | --- |
+| `npm run storybook` | 開啟元件庫（http://localhost:6006） |
+| `npm run tokens` | 從 `tokens.json` 重新產生 `src/styles/tokens.css` |
+| `npm test` | 執行金額與存錢目標的單元測試 |
+| `npm run build-storybook` | 輸出靜態版 Storybook 到 `storybook-static/` |

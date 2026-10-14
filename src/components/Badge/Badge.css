@@ -1,0 +1,17 @@
+.fl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fl-badge--md { padding: var(--space-1) var(--space-3); font-size: 12px; line-height: 16px; }
+.fl-badge--sm { padding: 0 var(--space-2); font-size: 11px; line-height: 18px; }
+
+.fl-badge--neutral { background: var(--surface-2); color: var(--ink-muted); box-shadow: inset 0 0 0 1px var(--line); }
+.fl-badge--info { background: var(--primary-soft); color: var(--primary); }
+.fl-badge--savings { background: var(--savings-soft); color: var(--savings); }
+.fl-badge--warning { background: var(--warning-soft); color: var(--warning); }
+.fl-badge--danger { background: var(--danger-soft); color: var(--danger); }

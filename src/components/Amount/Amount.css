@@ -1,0 +1,8 @@
+.fl-amount {
+  white-space: nowrap;
+}
+.fl-amount--default { color: var(--ink); }
+.fl-amount--muted { color: var(--ink-muted); }
+.fl-amount--primary { color: var(--primary); }
+.fl-amount--savings { color: var(--savings); }
+.fl-amount--danger { color: var(--danger); }

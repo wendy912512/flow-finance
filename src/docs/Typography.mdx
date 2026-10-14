@@ -1,0 +1,28 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import tokens from '../design-system/tokens.json';
+
+<Meta title="基礎/字體" />
+
+# 字體
+
+介面與金額都用 **IBM Plex Sans**（以 `@fontsource` 套件隨專案打包），中文落到 **Noto Sans TC**（從 Google Fonts 載入；離線時退回系統的 PingFang TC、微軟正黑體或 Noto Sans CJK TC）。金額一律開啟等寬數字（`font-feature-settings: "tnum" 1, "lnum" 1`），套用 `.num` 或任一 `.text-amount-*` 類名即可。
+
+export const Row = ({ s, family }) => (
+  <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'baseline', padding: '12px 0', borderBottom: '1px solid var(--line)' }}>
+    <div style={{ fontSize: 12, lineHeight: '18px', color: 'var(--ink-muted)' }}>
+      <code>.text-{s.name}</code>
+      <br />
+      {s.fontSize} / {s.lineHeight} · {s.fontWeight}
+      <br />
+      {s.usage}
+    </div>
+    <div className={`text-${s.name}`} style={{ color: 'var(--ink)' }}>{s.sample}</div>
+  </div>
+);
+
+{tokens.type.groups.map((g) => (
+  <section key={g.name}>
+    <h2>{g.name}</h2>
+    {g.styles.map((s) => <Row key={s.name} s={s} family={g.family} />)}
+  </section>
+))}
