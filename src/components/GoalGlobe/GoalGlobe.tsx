@@ -30,6 +30,12 @@ export interface GoalGlobeProps {
    * route sits higher on screen, e.g. when a panel covers the lower part of the globe.
    */
   view?: { latShift?: number; lngShift?: number; altitude?: number };
+  /**
+   * 'always': the scroll wheel zooms the globe.
+   * 'modifier': the wheel scrolls the page; zoom needs Ctrl/⌘ + wheel or a trackpad pinch.
+   * Use 'modifier' when the globe sits behind a page that scrolls.
+   */
+  scrollZoom?: 'always' | 'modifier';
   /** Accessible description of the visual. */
   ariaLabel: string;
   className?: string;
@@ -75,6 +81,7 @@ export function GoalGlobe({
   tileUrl = cartoDark,
   tileAttribution = '© OpenStreetMap contributors © CARTO',
   view,
+  scrollZoom = 'always',
   ariaLabel,
   className,
 }: GoalGlobeProps) {
@@ -89,6 +96,7 @@ export function GoalGlobe({
     if (!host) return;
     let disposed = false;
     let resizeObserver: ResizeObserver | undefined;
+    const cleanups: Array<() => void> = [];
 
     (async () => {
       const [{ default: Globe }, { feature }, countriesTopo, { geoInterpolate }, THREE] = await Promise.all([
@@ -235,6 +243,15 @@ export function GoalGlobe({
       };
       controls.addEventListener('change', onCamera);
 
+      // Capture phase on the host runs before OrbitControls' own wheel listener on the canvas.
+      if (scrollZoom === 'modifier') {
+        const passWheel = (e: WheelEvent) => {
+          if (!e.ctrlKey && !e.metaKey) e.stopPropagation();
+        };
+        host.addEventListener('wheel', passWheel, { capture: true });
+        cleanups.push(() => host.removeEventListener('wheel', passWheel, { capture: true }));
+      }
+
       const size = () => globe.width(host.clientWidth).height(host.clientHeight);
       size();
       resizeObserver = new ResizeObserver(size);
@@ -264,12 +281,13 @@ export function GoalGlobe({
     return () => {
       disposed = true;
       resizeObserver?.disconnect();
+      cleanups.forEach((fn) => fn());
       globeRef.current?._destructor();
       globeRef.current = null;
       host.replaceChildren();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- view is read once for the initial framing
-  }, [from, to, progress, progressLabel, animateIn, tileUrl]);
+  }, [from, to, progress, progressLabel, animateIn, tileUrl, scrollZoom]);
 
   const zoom = (factor: number) => {
     const g = globeRef.current;
@@ -307,7 +325,7 @@ export function GoalGlobe({
             </button>
           </div>
           <div className="fl-globe__hint" aria-hidden="true">
-            {mapMode ? tileAttribution : '拖曳轉動 · 滾輪或雙指縮放'}
+            {mapMode ? tileAttribution : scrollZoom === 'modifier' ? '拖曳轉動 · Ctrl／⌘＋滾輪或雙指縮放' : '拖曳轉動 · 滾輪或雙指縮放'}
           </div>
         </>
       )}

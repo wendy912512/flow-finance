@@ -1,184 +1,101 @@
 /*
- * 總覽 layout (desktop ≥ 1100px):
- *   the scene (3D globe) fills the whole screen; an off-white panel floats on the left;
- *   nav, month and a tabbed dock float on the scene as translucent dark glass.
- * Below 1100px everything stacks into solid cards (v1 style).
+ * 總覽 layout
+ *
+ * Desktop (≥ 1200px)
+ *   - The 3D globe is a fixed backdrop for the whole page.
+ *   - Left: off-white panel, sticky. Its top (today's number) is pinned; the cards under it scroll.
+ *   - Right: translucent cards on the scene. Goal + other goals top-right, this month's
+ *     analysis along the bottom, recent transactions below the first screen (its header peeks in).
+ *
+ * Below 1200px: one column of solid cards (v1 style); today's number stays pinned at the top.
  */
-.fl-app {
-  --panel-w: 380px;
-  --gap: var(--space-4);
-  --scene-left: calc(var(--panel-w) + var(--gap) * 2);
-  --dock-h: 292px;
-  position: relative;
-  height: 100vh;
-  min-height: 720px;
-  overflow: hidden;
-  background: var(--stage);
-  color: var(--ink);
-}
 
-/* Everything that sits on the dark scene reads the stage palette. */
+/* Palette for anything sitting on the dark scene. */
 .fl-app__scene,
-.fl-app__nav,
-.fl-app__month,
-.fl-app__dock {
+.fl-app__nav {
   --ink: var(--stage-ink);
   --ink-muted: var(--stage-muted);
   --line: var(--stage-line);
   --surface: var(--stage-2);
   --surface-2: rgba(255, 255, 255, 0.06);
   --primary: #7c9bff;
-  --primary-soft: rgba(124, 155, 255, 0.16);
   --savings: var(--stage-accent);
-  --savings-soft: rgba(69, 201, 161, 0.16);
-  --warning: #e2a847;
-  --warning-soft: rgba(226, 168, 71, 0.16);
-  --danger: #f2857a;
-  --danger-soft: rgba(242, 133, 122, 0.16);
-  --chart-1: #3987e5;
-  --chart-2: #d95926;
-  --chart-3: #199e70;
-  --chart-4: #c98500;
-  --chart-5: #d55181;
-  --chart-other: #5d6879;
   color: var(--stage-ink);
 }
 
-/* ── Scene ─────────────────────────────────────────── */
+.fl-app {
+  --panel-w: 380px;
+  --right-w: 340px;
+  --gap: var(--space-4);
+  --top-h: 48px;
+  --bottom-h: 252px;
+  --peek: 52px;
+  --scene-left: calc(var(--panel-w) + var(--gap) * 2);
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--panel-w) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+  padding: var(--gap);
+  background: var(--stage);
+  color: var(--ink);
+}
+
+/* ── Scene (fixed backdrop) ────────────────────────── */
 .fl-app__scene {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  z-index: 0;
 }
-.fl-app .fl-globe__canvas { left: var(--scene-left); bottom: calc(var(--dock-h) * 0.55); }
-.fl-app .fl-globe__controls { right: var(--gap); top: calc((100% - var(--dock-h)) / 2); }
-.fl-app .fl-globe__jumps { left: var(--scene-left); bottom: calc(var(--dock-h) + var(--gap) * 2); }
-.fl-app .fl-globe__hint { top: 76px; bottom: auto; left: calc(var(--scene-left) + (100% - var(--scene-left)) / 2); }
-
-/* ── Glass on the scene ────────────────────────────── */
-.fl-app__nav,
-.fl-app__month,
-.fl-app__dock {
-  position: absolute;
-  z-index: 2;
-  background: var(--stage-glass);
-  border: 1px solid var(--stage-line);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  backdrop-filter: blur(20px) saturate(140%);
-}
-.fl-app__nav,
-.fl-app__month {
-  top: var(--gap);
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1);
-  border-radius: var(--radius-pill);
-}
-.fl-app__nav { left: var(--scene-left); }
-.fl-app__nav a {
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-pill);
-  color: var(--stage-muted);
-  text-decoration: none;
-}
-.fl-app__nav a:hover { color: var(--stage-ink); }
-.fl-app__nav a[aria-current='page'] { background: var(--stage-ink); color: var(--stage); font-weight: 600; }
-.fl-app__nav a:focus-visible { outline: 2px solid var(--stage-accent); outline-offset: 2px; }
-.fl-app__month { right: var(--gap); font-weight: 600; }
-.fl-app__month button {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-}
-.fl-app__month button:hover { background: rgba(255, 255, 255, 0.08); }
-
-/* ── Dock ──────────────────────────────────────────── */
-.fl-app__dock {
+.fl-app .fl-globe__canvas {
   left: var(--scene-left);
-  right: var(--gap);
-  bottom: var(--gap);
-  height: var(--dock-h);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-5) var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+  right: calc(var(--right-w) + var(--gap) * 2);
+  top: calc(var(--top-h) + var(--gap));
+  bottom: calc(var(--bottom-h) + var(--peek) + var(--gap) * 2);
 }
-.fl-dock__bar { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
-.fl-dock__tabs { display: flex; gap: var(--space-2); flex-wrap: wrap; }
-.fl-dock__tabs button {
-  height: 36px;
-  padding: 0 var(--space-4);
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--stage-muted);
-  font-size: 13px;
-  cursor: pointer;
+.fl-app .fl-globe__controls {
+  right: calc(var(--right-w) + var(--gap) * 3);
+  top: calc(var(--top-h) + var(--gap) * 3);
 }
-.fl-dock__tabs button:hover { color: var(--stage-ink); }
-.fl-dock__tabs button[aria-selected='true'] {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--stage-ink);
-  font-weight: 600;
-  box-shadow: inset 0 -2px 0 var(--stage-accent);
+.fl-app .fl-globe__jumps {
+  left: calc(var(--scene-left) + var(--gap));
+  bottom: calc(var(--bottom-h) + var(--peek) + var(--gap) * 3);
 }
-.fl-dock__tabs button:focus-visible { outline: 2px solid var(--stage-accent); outline-offset: 2px; }
-.fl-dock__goal { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; color: var(--stage-muted); }
-.fl-dock__goal-name { color: var(--stage-ink); font-weight: 600; }
-.fl-dock__body { flex: 1; min-height: 0; overflow-y: auto; }
-
-.fl-dock-flight {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) 240px;
-  gap: var(--space-8);
-  align-items: center;
-  height: 100%;
+.fl-app .fl-globe__hint {
+  top: auto;
+  bottom: calc(var(--bottom-h) + var(--peek) + var(--gap) * 3 + 8px);
+  left: calc(var(--scene-left) + (100% - var(--scene-left) - var(--right-w) - var(--gap) * 2) / 2);
 }
-.fl-dock-flight__rows { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; padding-left: var(--space-6); border-left: 1px solid var(--stage-line); }
-.fl-dock-flight__purpose { margin: 0 0 var(--space-1); font-size: 13px; line-height: 20px; color: var(--stage-muted); }
-.fl-dock-flight__head,
-.fl-dock-flight__row {
-  display: grid;
-  grid-template-columns: 64px 88px 88px minmax(0, 1fr);
-  gap: var(--space-3);
-  align-items: center;
-  font-size: 13px;
-}
-.fl-dock-flight__head { font-size: 12px; color: var(--stage-ink); font-weight: 600; }
-.fl-dock-flight__k { color: var(--stage-muted); }
-.fl-dock-flight__side { display: flex; flex-direction: column; gap: var(--space-4); }
-.fl-dock-flight__facts { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
-.fl-dock-flight__facts dt { font-size: 11px; line-height: 16px; color: var(--stage-muted); }
-.fl-dock-flight__facts dd { margin: 0; font-size: 17px; line-height: 24px; font-weight: 600; }
-
-.fl-dock-list { max-width: 640px; }
-.fl-dock-goals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
-.fl-dock-goals__item { display: flex; flex-direction: column; gap: var(--space-2); }
-.fl-dock-goals__status { font-size: 12px; font-weight: 600; color: var(--stage-muted); }
-.fl-dock-goals__status.is-on-track, .fl-dock-goals__status.is-achieved { color: var(--savings); }
-.fl-dock-goals__status.is-behind, .fl-dock-goals__status.is-overdue { color: var(--warning); }
 
 /* ── Left panel ────────────────────────────────────── */
 .fl-app__panel {
-  position: absolute;
+  position: sticky;
   z-index: 3;
   top: var(--gap);
-  bottom: var(--gap);
-  left: var(--gap);
-  width: var(--panel-w);
-  overflow-y: auto;
-  padding: var(--space-4);
+  height: calc(100vh - var(--gap) * 2);
+  min-height: 600px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  overflow: hidden;
   background: var(--surface-2);
   border-radius: var(--radius-lg);
   color: var(--ink);
+}
+.fl-app__pin {
+  flex: 0 0 auto;
+  padding: var(--space-4) var(--space-4) 0;
+  border-bottom: 1px solid var(--line);
+}
+.fl-app__panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 .fl-app__brand { display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-1) var(--space-2); }
 .fl-app__logo { display: flex; align-items: center; gap: var(--space-3); font-size: 17px; font-weight: 600; }
@@ -204,7 +121,9 @@
 .fl-sub__meta { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
 .fl-sub__row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); }
 .fl-sub__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; font-size: 12px; line-height: 18px; color: var(--ink-muted); }
-.fl-sub__list li { display: flex; justify-content: space-between; gap: var(--space-2); }
+.fl-sub__list li { display: flex; justify-content: space-between; gap: var(--space-2); white-space: nowrap; }
+.fl-sub__list li > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+.fl-sub__more { margin-top: var(--space-1); }
 .fl-sub .fl-progress { margin-top: var(--space-1); }
 
 .fl-sub--how { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
@@ -219,67 +138,242 @@
   border: 0;
   border-radius: var(--radius-md);
 }
-.fl-link { font-size: 12px; color: var(--primary); text-decoration: none; }
+.fl-link { font-size: 12px; line-height: 18px; color: var(--primary); text-decoration: none; }
+.fl-link:hover { text-decoration: underline; }
 .fl-strong { color: var(--ink); font-weight: 600; }
+
+/* ── Main column on the scene ──────────────────────── */
+.fl-app__main {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  pointer-events: none; /* drags on empty space reach the globe */
+}
+.fl-app__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--right-w);
+  grid-template-rows: var(--top-h) auto;
+  grid-template-areas:
+    'top top'
+    'left right';
+  align-items: start;
+  gap: var(--gap);
+}
+.fl-app__top { grid-area: top; display: flex; justify-content: space-between; align-items: center; gap: var(--gap); }
+.fl-app__right { grid-area: right; display: flex; flex-direction: column; gap: var(--gap); }
+.fl-app__left { grid-area: left; display: flex; flex-direction: column; gap: var(--gap); min-width: 0; }
+/* Empty space over the globe; sized so the analysis cards end just above the fold. */
+.fl-app__spacer {
+  height: max(240px, calc(100vh - var(--gap) * 4 - var(--top-h) - var(--bottom-h) - var(--peek)));
+}
+.fl-app__bottom {
+  height: var(--bottom-h);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+  gap: var(--gap);
+}
+.fl-app__nav,
+.fl-app__month,
+.fl-app__right > *,
+.fl-app__bottom > *,
+.fl-app__tx { pointer-events: auto; }
+
+/* ── Glass on the scene ────────────────────────────── */
+.fl-app__nav,
+.fl-app__month,
+.fl-glass {
+  background: var(--stage-glass);
+  border: 1px solid var(--stage-line);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+.fl-app__nav,
+.fl-app__month {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: var(--top-h);
+  padding: var(--space-1);
+  border-radius: var(--radius-pill);
+}
+.fl-app__nav a {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  color: var(--stage-muted);
+  text-decoration: none;
+}
+.fl-app__nav a:hover { color: var(--stage-ink); }
+.fl-app__nav a[aria-current='page'] { background: var(--stage-ink); color: var(--stage); font-weight: 600; }
+.fl-app__nav a:focus-visible { outline: 2px solid var(--stage-accent); outline-offset: 2px; }
+.fl-app__month { font-weight: 600; }
+.fl-app__month button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.fl-app__month button:hover { background: rgba(255, 255, 255, 0.08); }
+
+.fl-glass {
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.fl-glass__eyebrow { font-size: 12px; line-height: 18px; color: var(--ink-muted); margin-bottom: calc(var(--space-3) * -1); }
+.fl-glass__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.fl-glass__title { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; }
+.fl-glass__meta { font-size: 12px; color: var(--ink-muted); }
+
+/* Desktop: cards and the month control sit on the dark scene. */
+@media (min-width: 1200px) {
+  .fl-glass,
+  .fl-app__month {
+  --ink: var(--stage-ink);
+    --ink-muted: var(--stage-muted);
+    --line: var(--stage-line);
+    --surface: var(--stage-2);
+    --surface-2: rgba(255, 255, 255, 0.06);
+    --primary: #7c9bff;
+    --primary-soft: rgba(124, 155, 255, 0.16);
+    --savings: var(--stage-accent);
+    --savings-soft: rgba(69, 201, 161, 0.16);
+    --warning: #e2a847;
+    --warning-soft: rgba(226, 168, 71, 0.16);
+    --danger: #f2857a;
+    --danger-soft: rgba(242, 133, 122, 0.16);
+    --chart-1: #3987e5;
+    --chart-2: #d95926;
+    --chart-3: #199e70;
+    --chart-4: #c98500;
+    --chart-5: #d55181;
+    --chart-other: #5d6879;
+  color: var(--stage-ink);
+  }
+}
+
+/* Goal card */
+.fl-goal__head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
+.fl-goal__name { margin: 0; font-size: 22px; line-height: 30px; font-weight: 600; }
+.fl-goal__purpose { margin: calc(var(--space-2) * -1) 0 0; font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.fl-goal__summary { display: flex; align-items: center; gap: var(--space-4); }
+.fl-goal__facts { flex: 1; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fl-goal__facts div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); }
+.fl-goal__facts dt { font-size: 12px; line-height: 18px; color: var(--ink-muted); white-space: nowrap; }
+.fl-goal__facts dd { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; }
+.fl-goal__meter { display: flex; flex-direction: column; gap: var(--space-2); }
+.fl-goal__meter-row { display: flex; justify-content: space-between; font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+.fl-goal__meter-row b { color: var(--ink); font-weight: 600; }
+
+/* Other goals */
+.fl-others__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.fl-others__list li { display: flex; flex-direction: column; gap: var(--space-2); }
+.fl-others__row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
+.fl-others__status { font-size: 12px; font-weight: 600; color: var(--ink-muted); }
+.fl-others__status.is-on-track, .fl-others__status.is-achieved { color: var(--savings); }
+.fl-others__status.is-behind, .fl-others__status.is-overdue { color: var(--warning); }
+.fl-others__meta { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
+
+/* Recent transactions */
+.fl-app__tx-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); column-gap: var(--space-8); }
 
 .fl-app__tabbar { display: none; }
 
 /* ── Narrower desktops ─────────────────────────────── */
 @media (max-width: 1399px) {
-  .fl-app { --panel-w: 348px; --dock-h: 300px; }
-  .fl-dock-flight { grid-template-columns: auto minmax(0, 1fr); }
-  .fl-dock-flight__side { display: none; }
+  .fl-app { --panel-w: 340px; --right-w: 308px; }
+  .fl-app__nav a { padding: var(--space-2) var(--space-3); }
 }
 
-/* ── Tablet & phone: stacked solid cards (v1 style) ── */
-@media (max-width: 1099px) {
+/* ── Tablet & phone: one column of solid cards (v1 style) ── */
+@media (max-width: 1199px) {
   .fl-app {
-    height: auto;
-    min-height: 100vh;
-    overflow: visible;
-    background: var(--bg);
-    padding: var(--space-4) var(--space-4) 112px;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: var(--space-3);
+    padding: 0 var(--space-4) 112px;
+    background: var(--bg);
   }
-  .fl-app__panel { display: contents; }
-  .fl-app__nav, .fl-app__add { display: none; }
+  .fl-app__panel,
+  .fl-app__panel-body,
+  .fl-app__main,
+  .fl-app__grid,
+  .fl-app__left,
+  .fl-app__top,
+  .fl-app__right,
+  .fl-app__bottom { display: contents; }
+  .fl-app__nav, .fl-app__add, .fl-app__spacer { display: none; }
 
-  .fl-app__brand { order: 0; padding: 0; }
-  .fl-app__month { order: 1; position: static; align-self: flex-start; --ink: inherit; background: #f3f2ef; border-color: #dcdad5; color: #121314; -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .fl-app__month button:hover { background: rgba(0, 0, 0, 0.05); }
-  .fl-app__title { order: 2; padding: var(--space-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
-  .fl-app__scene { order: 4; position: relative; inset: auto; height: 340px; border-radius: var(--radius-lg); overflow: hidden; background: var(--stage); }
-  .fl-app__dock {
-    order: 5;
-    position: static;
-    height: auto;
-    background: var(--stage);
-    border-color: var(--stage);
+  /* Today's number stays on screen while scrolling. */
+  .fl-app__pin {
+    order: 0;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 calc(var(--space-4) * -1);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: var(--space-2);
+  }
+  .fl-app__brand { padding: 0; grid-column: 1 / -1; }
+  .fl-app__title { padding: 0; }
+  .fl-app__hero { margin: 0; }
+  .fl-app__hero .text-display-1 { font-size: 44px; line-height: 48px; }
+  .fl-app__cur { font-size: 18px; }
+
+  .fl-app__month {
+    order: 1;
+    align-self: flex-start;
+    height: 44px;
+    background: var(--surface);
+    border-color: var(--line);
+    color: var(--ink);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    padding: var(--space-4);
   }
-  .fl-sub-grid { order: 3; }
-  .fl-sub--how { order: 6; }
-  .fl-sub--accounts { order: 7; }
-  .fl-app__panel .fl-networth--bare.fl-card { order: 8; }
+  .fl-app__month button:hover { background: var(--surface-2); }
+  .fl-sub-grid { order: 2; }
+  .fl-app__scene { order: 3; position: relative; inset: auto; height: 340px; border-radius: var(--radius-lg); overflow: hidden; background: var(--stage); }
+  .fl-goal { order: 4; }
+  .fl-others { order: 5; }
+  .fl-app__bottom > :first-child { order: 6; }
+  .fl-app__bottom > :last-child { order: 7; }
+  .fl-app__tx { order: 8; }
+  .fl-sub--how { order: 9; }
+  .fl-sub--accounts { order: 10; }
+  .fl-app__panel .fl-networth--bare.fl-card { order: 11; }
+
   .fl-sub,
   .fl-app__panel .fl-networth--bare.fl-card { border: 1px solid var(--line); border-radius: var(--radius-lg); }
   .fl-sub--accounts { background: none; border: 0; padding: var(--space-2) 0; }
 
-  .fl-app .fl-globe__canvas { left: 0; bottom: 0; }
-  .fl-app .fl-globe__controls { right: var(--space-3); top: 50%; }
-  .fl-app .fl-globe__hint { top: auto; bottom: var(--space-2); left: 50%; }
+  .fl-glass {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    padding: var(--space-4);
+  }
 
-  .fl-dock__tabs { flex-wrap: nowrap; overflow-x: auto; }
-  .fl-dock__tabs button { flex: 0 0 auto; }
-  .fl-dock-flight { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); justify-items: center; }
-  .fl-dock-flight__rows { padding-left: 0; border-left: 0; width: 100%; }
-  .fl-dock-flight__side { display: flex; width: 100%; }
-  .fl-dock-flight__head, .fl-dock-flight__row { grid-template-columns: 48px 72px 72px minmax(0, 1fr); gap: var(--space-2); }
-  .fl-dock-goals { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .fl-app .fl-globe__canvas { inset: 0; }
+  .fl-app .fl-globe__controls { right: var(--space-3); top: 50%; transform: translateY(-50%); }
+  .fl-app .fl-globe__jumps { left: var(--space-3); bottom: var(--space-3); }
+  .fl-app .fl-globe__hint { display: none; }
+
+  .fl-app__tx-list { grid-template-columns: minmax(0, 1fr); }
 
   .fl-app__tabbar {
     position: fixed;
@@ -309,8 +403,4 @@
     color: var(--on-primary);
     box-shadow: var(--shadow-fab);
   }
-}
-@media (max-width: 1099px) {
-  [data-theme='dark'] .fl-app__month { background: #16171a; border-color: rgba(255, 255, 255, 0.1); color: #f2f1ee; }
-  [data-theme='dark'] .fl-app__month button:hover { background: rgba(255, 255, 255, 0.08); }
 }

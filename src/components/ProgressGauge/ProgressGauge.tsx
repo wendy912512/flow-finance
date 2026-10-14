@@ -15,7 +15,7 @@ export interface ProgressGaugeProps {
 export function ProgressGauge({ value, label, caption, size = 168, tone = 'savings' }: ProgressGaugeProps) {
   const v = Math.max(0, Math.min(1, value));
   return (
-    <div className="fl-gauge" style={{ width: size, height: size }} role="img" aria-label={`${caption} ${label}`}>
+    <div className="fl-gauge" style={{ width: size, height: size, ['--gauge-size' as string]: `${size}px` }} role="img" aria-label={`${caption} ${label}`}>
       <svg viewBox="0 0 120 120" aria-hidden="true">
         <circle className="fl-gauge__track" cx="60" cy="60" r="52" pathLength={100} strokeDasharray="75 100" transform="rotate(135 60 60)" />
         <circle
